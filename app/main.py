@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 
 from app.db.session import Base, engine
-from app.models import user  # noqa: F401
+from app.models import user, exercise  # noqa: F401
+from app.routers import exercises
 
 app = FastAPI(
     title="Gym Progression API",
@@ -10,6 +11,8 @@ app = FastAPI(
 )
 
 Base.metadata.create_all(bind=engine)
+
+app.include_router(exercises.router)
 
 
 @app.get("/health")
